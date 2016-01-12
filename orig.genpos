@@ -1,0 +1,42 @@
+#!/bin/bash
+
+DOMAIN="cmform"
+POT="$DOMAIN.pot"
+LANGS="en_US fr_FR"
+SOURCES="*.php"
+
+# Create template
+echo "Creating POT"
+rm -f $POT
+xgettext \
+	--copyright-holder="EnfinWeb" \
+	--package-name="CMform" \
+	--package-version="1.0" \
+	--msgid-bugs-address="" \
+	--language=PHP \
+	--sort-output \
+	--no-wrap \
+	--keyword=__ \
+	--keyword=_e \
+	--from-code=utf-8 \
+	--output="$POT" \
+*.php
+
+# Create languages
+for LANG in $LANGS
+do
+	if [ ! -e "$LANG.po" ]
+	then
+		echo "Creating language file for $LANG"
+		msginit --no-translator --no-wrap --locale=$LANG.UTF-8 --output-file=$LANG.po --input=$POT
+	fi
+
+	echo "Updating language file for $LANG from $POT"
+	# msgmerge [option] def.po ref.pot
+	msgmerge --sort-output --no-wrap --update --backup=off $LANG.po $POT
+
+	echo "Converting $LANG.po to $LANG.mo"
+	# mgfmt [option] filename.po ...
+	msgfmt --check --verbose --output-file=$LANG.mo $LANG.po
+done
+

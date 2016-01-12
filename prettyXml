@@ -1,0 +1,2 @@
+inFile=${1:?Must give xml file name}
+xmllint --format - < $inFile

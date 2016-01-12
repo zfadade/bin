@@ -1,0 +1,1 @@
+defaults write com.apple.dashboard mcx-disabled -boolean NO && killall Dock

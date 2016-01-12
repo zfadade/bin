@@ -1,0 +1,2 @@
+fileToClear=${1:?Must give name of file to truncate}
+dd if=/dev/null of=$fileToClear

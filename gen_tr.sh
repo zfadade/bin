@@ -8,7 +8,6 @@ MSGID_BUGS_ADDR=zfadade@yahoo.com
 
 po_gen=true
 mo_gen=true
-base_dir='/Library/WebServer/Documents/cmform'
 
 USAGE="USAGE: $0 [-pm] [-l lang] directory\nProcesses translation files. \n -p Only update .po files\n -m Only update .mo files\n -l language Only process the given language (fr_FR or en_US)\n"
 
@@ -16,23 +15,24 @@ while getopts "pml:" opt
 do
   case $opt in
     p)
-     	printf "Only generate .po files"
+     	printf "Only generate .po files\n"
 		mo_gen=false
       	;;
     m)
-      	printf "Only generate .mo files"
+      	printf "Only generate .mo files\n"
 		po_gen=false
       	;;
     l)
-      	printf "Only generate $OPTARG files"
 		LANGS=$OPTARG
+      	printf "Only generate $LANGS files\n"
       	;;
     ?) 
         printf "$USAGE"
-  	    exit
-      ;;
+  	    exit 0
+        ;;
   esac
 done
+shift $(( OPTIND - 1 ));
 
 if [[ $# -ne 1 ]]
 then
@@ -48,6 +48,10 @@ do
 	po_dir=$base_dir/locale/$lang/LC_MESSAGES
 	po_file=$po_dir/messages.po
 	mo_file=$po_dir/messages.mo
+    
+    # Recursively find all .php files.  Exclude files under /vendor
+    php_files=$(find $base_dir -not -path "$base_dir/vendor*" -name "*.php" -type f -print)
+    printf "php files: $php_files"
 	if [ "$po_gen" == true ]
 	then
     	printf "\nUpdating $po_file\n"
@@ -59,8 +63,12 @@ do
 			--msgid-bugs-address="$MSGID_BUGS_ADDR" \
 			--from-code="UTF-8" \
 			--omit-header \
-			--join-existing  \
-			-o $po_file -j $base_dir/*.php 
+			--join-existing \
+			--output=$po_file \
+            --join-existing \
+            --files-from=$php_files
+
+#$base_dir/*.php 
 
     	printf "Converting $(basename $po_file) to $(basename $mo_file)\n"
 	fi

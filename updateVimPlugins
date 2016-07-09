@@ -1,6 +1,4 @@
-cd ~/.vim/bundle
-for i in `ls`; do
-  cd "$i"
-  git pull
-  cd ..
+for i in ~/.vim/bundle/*; do 
+	echo "Updating $i"
+	git -C $i pull 
 done

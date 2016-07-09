@@ -1,1 +1,2 @@
-/Applications/tomcat/bin/shutdown.sh
+catalina stop
+

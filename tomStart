@@ -1,1 +1,1 @@
-/Applications/tomcat/bin/catalina.sh run
+catalina start

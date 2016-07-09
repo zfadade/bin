@@ -1,0 +1,15 @@
+hostName=u83936221@u83936221.1and1-data.host
+
+# Copy .php files
+scp -vp  $cmeyer/includes/php_utils.php $hostName:~u83936221/2016/includes
+scp -vp  $cmeyer/services.php $hostName:~u83936221/2016
+
+exit 0
+
+# Copy gen scripts into ~tools
+#scp -vp ~/bin/edit_po.sh ~/bin/gen_tr.sh $hostName:~/u83936221/2016/tools
+
+printf "Please remotely execute:\n  chmod 744 ~/bin/gen_tr.sh ~/bin/edit_po.sh"
+
+
+

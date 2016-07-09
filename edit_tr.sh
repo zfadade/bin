@@ -2,7 +2,6 @@
 
 USAGE="USAGE: $0 [-ef] directory\nEdits translation .po files. \nUse -f or -e to edit only French or English files\n"
 
-base_dir='/Library/WebServer/Documents/cmform'
 lang="??_??"
 
 while getopts "ef" opt

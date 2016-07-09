@@ -1,3 +1,4 @@
+# Copy gen scripts into ~/zfadade/cmform/includes
 scp -vp ~/bin/edit_po.sh ~/bin/gen_tr.sh u35819402@s94076704.onlinehome.us:~/zfadade/cmform/includes
 
-printf "Please remotely execute::\n  chmod 744 ~/bin/gen_tr.sh ~/bin/edit_po.sh"
+printf "Please remotely execute:\n  chmod 744 ~/bin/gen_tr.sh ~/bin/edit_po.sh"

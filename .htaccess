@@ -1,0 +1,2 @@
+; Make this directory private (so it can't be accessed by a browser)
+deny from all

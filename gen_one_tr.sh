@@ -1,8 +1,6 @@
 #!/bin/bash
 
-#.po files:  Where I put in the translations
-#.mo files:  the compiled version
-
+base_dir='/Library/WebServer/Documents/cmform'
 LANGS="en_US fr_FR"
 COPYRIGHT_HOLDER=EnfinWeb
 PACKAGE_NAME=CMForm
@@ -13,7 +11,7 @@ mo_gen=true
 
 USAGE="USAGE: $0 [-pm] [-l lang] directory\nProcesses translation files. \n -p Only update .po files\n -m Only update .mo files\n -l language Only process the given language (fr_FR or en_US)\n"
 
-while getopts "pml:f:" opt
+while getopts "pml:" opt
 do
   case $opt in
     p)
@@ -28,10 +26,6 @@ do
 		LANGS=$OPTARG
       	printf "Only generate $LANGS files\n"
       	;;
-    f)
-        php_files=$OPTARG
-        printf "Only operate on php_files"
-        ;;
     ?) 
         printf "$USAGE"
   	    exit 0
@@ -48,18 +42,17 @@ then
 fi
 
 base_dir=$1
+start_dir="$base_dir/admin"
 
-php_files=$(find $base_dir -not -path "$base_dir/vendor*" -name "*.php" -type f -print)
-
-for lang in $LANGS
+for lang in fr_FR
 do
 	po_dir=$base_dir/locale/$lang/LC_MESSAGES
 	po_file=$po_dir/messages.po
 	mo_file=$po_dir/messages.mo
     
     # Recursively find all .php files.  Exclude files under /vendor
-    #php_files=$(find $base_dir -not -path "$base_dir/vendor*" -name "*.php" -type f -print)
-    #php_files=/Library/WebServer/Documents/cmform/admin/index.php
+    php_files=$(find $base_dir -not -path "$base_dir/vendor*" -name "*.php" -type f -print)
+     #php_files=$start_dir/users.php
     printf "php files: $php_files"
 	if [ "$po_gen" == true ]
 	then
@@ -75,8 +68,10 @@ do
 			--join-existing \
 			--output=$po_file \
             --join-existing \
-            --debug \
-            $php_files
+			$php_files
+
+#            --files-from=$php_files
+#$base_dir/*.php 
 
     	printf "Converting $(basename $po_file) to $(basename $mo_file)\n"
 	fi

@@ -1,0 +1,4 @@
+for i in ~/.vim/bundle/*; do 
+	echo "Updating $i"
+	git -C $i pull 
+done

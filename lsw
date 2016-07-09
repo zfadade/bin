@@ -1,0 +1,9 @@
+
+if [[ $# -ne 1 ]]
+then
+	printf "Which program do you want to ls -l `which XXX` "
+	exit 1
+fi
+
+program=$1
+ls -l `which $program`
